@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>MediaVault</h1>
+    <h1>MediaVault V2</h1>
     <p>Project initialized successfully 🚀</p>
   </div>
 </template>
