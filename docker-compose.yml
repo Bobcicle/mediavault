@@ -1,34 +1,56 @@
 services:
-
   frontend:
     build:
       context: ./client
-
     container_name: mediavault-client
-
     ports:
       - "5173:5173"
-
     volumes:
       - ./client:/app
       - /app/node_modules
-
     command: npm run dev -- --host
-
     depends_on:
       - backend
 
   backend:
     build:
       context: ./server
-
     container_name: mediavault-api
-
     ports:
       - "3000:3000"
-
     volumes:
       - ./server:/app
       - /app/node_modules
-
+    env_file:
+      - ./server/.env
+    depends_on:
+      - postgres
     command: npm run dev
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: mediavault-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mediavault
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: mediavault-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres-data:
