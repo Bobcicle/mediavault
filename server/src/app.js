@@ -1,15 +1,11 @@
 const express = require("express");
-const cors = require("cors");
+
+const bookmarkRoutes = require("./routes/bookmarkRoutes");
 
 const app = express();
 
-app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.json({
-    message: "MediaVault API is running 🚀",
-  });
-});
+app.use("/api/bookmarks", bookmarkRoutes);
 
 module.exports = app;
