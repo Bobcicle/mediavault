@@ -8,6 +8,13 @@ async function getAll() {
   });
 }
 
+async function create(data) {
+  return prisma.bookmark.create({
+    data,
+  });
+}
+
 module.exports = {
   getAll,
+  create,
 };
