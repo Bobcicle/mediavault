@@ -29,8 +29,16 @@ watch(
   { immediate: true }
 );
 
+
 function submit() {
-  emit("save", { ...form });
+  emit("save", {
+  id: form.id,
+  title: form.title,
+  url: form.url,
+  description: form.description,
+  type: form.type,
+  favorite: form.favorite,
+});
 
   form.title = "";
   form.url = "";
