@@ -1,15 +1,33 @@
 <script setup>
-import { reactive } from "vue";
+import { reactive,watch } from "vue";
+
+const props = defineProps({
+  bookmark: {
+    type: Object,
+    default: null,
+  },
+});
 
 const emit = defineEmits(["save"]);
 
 const form = reactive({
+  id: null,
   title: "",
   url: "",
   description: "",
   type: "website",
   favorite: false,
 });
+
+watch(
+  () => props.bookmark,
+  (bookmark) => {
+    if (bookmark) {
+      Object.assign(form, bookmark);
+    }
+  },
+  { immediate: true }
+);
 
 function submit() {
   emit("save", { ...form });
@@ -18,7 +36,7 @@ function submit() {
   form.url = "";
   form.description = "";
   form.type = "website";
-  form.favorite = false;
+  form.favorite = false;form.id = null;
 }
 </script>
 
@@ -55,8 +73,10 @@ function submit() {
     </label>
 
     <button @click="submit">
-      Save Bookmark
-    </button>
+  {{ form.id ? "Update Bookmark" : "Save Bookmark" }}
+</button>
+
+
   </div>
 </template>
 
